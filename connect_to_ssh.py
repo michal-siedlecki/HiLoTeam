@@ -31,6 +31,7 @@ try:
 
     # Close ssh connection
     ssh_client.close()
+    stdin.close()
 
 # Catch exceptions
 except paramiko.AuthenticationException as auth_error:
