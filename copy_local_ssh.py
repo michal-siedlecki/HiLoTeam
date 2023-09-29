@@ -1,11 +1,12 @@
 import paramiko
 import os
+from decouple import config
 
 # Define your SSH server details
-ssh_host = ''
-ssh_port = ''
-ssh_username = ''
-ssh_password = ''
+ssh_host = config('HOSTNAME')
+ssh_port = int(config('PORT'))
+ssh_username = config('USER_NAME')
+ssh_password = config('PASSWORD')
 
 # Local directory path
 local_dir = ''
@@ -14,7 +15,7 @@ local_dir = ''
 remote_dir = './'
 
 # List of files to upload
-files_to_upload = ['asdf.txt']
+files_to_upload = ['kkkk.txt']
 
 # Create an SSH client
 ssh_client = paramiko.SSHClient()

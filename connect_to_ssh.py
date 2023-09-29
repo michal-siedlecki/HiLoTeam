@@ -1,17 +1,17 @@
 import paramiko
+from decouple import config
 
+# Creds
+username = config('USER_NAME')
+password = config('PASSWORD')
+private_key = ''
+hostname = config('HOSTNAME')
+port = int(config('PORT'))
 
-hostname = ''
-port = ''
 ssh_client = paramiko.SSHClient()
 
 # Add to known
 ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-# Creds
-username = ''
-password = ''
-private_key = ''
 
 try:
     # Connect to SSH
