@@ -11,10 +11,14 @@ ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 # Creds
 username = ''
 password = ''
+private_key = ''
 
 try:
-    # Connect to SSH 
-    ssh_client.connect(hostname, port, username, password)
+    # Connect to SSH
+    if not private_key:
+        ssh_client.connect(hostname, port, username, password)
+    else:
+        ssh_client.connect(hostname, username=username, key_filename=private_key)
 
     # Do something
     command = 'cat asdf.txt'
