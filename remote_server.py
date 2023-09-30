@@ -34,7 +34,9 @@ app = FastAPI(
 
 
 @app.get("/panel")
-def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)], request: Request):
+def remote_panel(
+    credentials: Annotated[HTTPBasicCredentials, Depends(security)], request: Request
+):
     """User login for remote panel"""
 
     result = COLLECTION.find_one({"name": credentials.username})
@@ -42,10 +44,14 @@ def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]
         raise HTTPException(status_code=403, detail="Forbidden")
     if result["password"] == credentials.password and not result["has_key"]:
         name = result["name"]
-        return TEMPLATES.TemplateResponse("public_key_input.html", {"request": request,"name": name})
+        return TEMPLATES.TemplateResponse(
+            "public_key_input.html", {"request": request, "name": name}
+        )
     if result["password"] == credentials.password and result["has_key"]:
         name = result["name"]
-        return TEMPLATES.TemplateResponse("status_template.html", {"request": request, "name": name})
+        return TEMPLATES.TemplateResponse(
+            "status_template.html", {"request": request, "name": name}
+        )
     raise HTTPException(status_code=403, detail="Forbidden")
 
 
