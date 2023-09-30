@@ -1,0 +1,130 @@
+/* VARS */
+:root {
+    --background: #FFF;
+    --primary: #C1DBE1;
+    --secondary: #A3D6E2;
+    --support: #DFDFDF88;
+}
+
+/* GLOBALS */
+* {
+    font-family: Roboto, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background);
+}
+
+/* __________________ KEY GENERATOR CONTAINER __________________ */
+
+.main__keyGenerator--parent {
+    display: flex;
+    justify-content: center;
+}
+
+.main__keyGenerator--container {
+    width: 500px;
+    height: 250px;
+    border-radius: 20px;
+    background: var(--support);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main__keyGenerator--heading {
+    font-size: 28px;
+    font-weight: bolder;
+    color: var(--secondary);
+}
+
+.main__keyGenerator--keyContainer {
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0 10px;
+    background: var(--background);
+    margin: 20px 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.main__keyGenerator--key {
+    font-weight: 200;
+    width: 250px;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.main__keyGenerator--line {
+    width: 1px;
+    height: 35px;
+    margin-left: 10px;
+    background-color: var(--support);
+}
+
+.main__keyGenerator--copy {
+    cursor: pointer;
+    transform: scale(0.6);
+}
+
+.main__keyGenerator--button {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    background: var(--secondary);
+}
+
+.main__keyGenerator--buttonSpan {
+    font-weight: 600;
+    color: #FFF;
+    z-index: 10;
+}
+
+
+/* ------------- BUTTON CLASSES -------------- */
+.button-hover2::before {
+    transition: 0.3s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: "";
+    border-radius: 30px;
+
+}
+
+.button-hover2:hover::before {
+    transition: 0.3s all ease;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    opacity: 1;
+    z-index: 1;
+    border: 2px solid var(--primary);
+}
+
+.button-hover2::before {
+    background-color: #DFDFDF;
+}
+
+.button-hover2 {
+    width: 100px;
+    height: 35px;
+    border: 2px solid var(--secondary);
+    border-radius: 20px;
+    background-color: var(--secondary);
+}
