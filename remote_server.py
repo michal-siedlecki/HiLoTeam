@@ -4,6 +4,7 @@ for local testing first run mongodb locally
 docker run -d -p 27017:27017 --name hilo-mongo mongo:latest
 """
 import os
+import requests
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, Form, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -48,8 +49,10 @@ def remote_panel(
         )
     if result["password"] == credentials.password and result["has_key"]:
         name = result["name"]
+        status_response = requests.get('https://martaclose.hi-lo.pl')
+        status = status_response.status_code
         return TEMPLATES.TemplateResponse(
-            "status_template.html", {"request": request, "name": name}
+            "status_template.html", {"request": request, "name": name, "status": status}
         )
     raise HTTPException(status_code=403, detail="Forbidden")
 
