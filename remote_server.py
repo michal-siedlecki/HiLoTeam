@@ -3,9 +3,7 @@
 for local testing first run mongodb locally
 docker run -d -p 27017:27017 --name hilo-mongo mongo:latest
 """
-import os
 from typing import Annotated
-from pydantic import BaseModel
 from fastapi import Depends, FastAPI, HTTPException, Form, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
