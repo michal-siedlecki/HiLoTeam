@@ -15,7 +15,7 @@ local_dir = ""
 remote_dir = "./"
 
 # List of files to upload
-files_to_upload = ["kkkk.txt"]
+files_to_upload = ["docker-compose.yml"]
 
 # Create an SSH client
 ssh_client = paramiko.SSHClient()

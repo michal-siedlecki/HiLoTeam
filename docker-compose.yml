@@ -1,9 +1,0 @@
-version: "3.8"
-
-services:
-
-  app:
-    build: .
-    command: bash -c "echo 'hilo world'"
-    ports:
-      - 8010:8010
