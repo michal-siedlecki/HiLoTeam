@@ -3,19 +3,19 @@ import os
 from decouple import config
 
 # Define your SSH server details
-ssh_host = config('HOSTNAME')
-ssh_port = int(config('PORT'))
-ssh_username = config('USER_NAME')
-ssh_password = config('PASSWORD')
+ssh_host = config("HOSTNAME")
+ssh_port = int(config("PORT"))
+ssh_username = config("USER_NAME")
+ssh_password = config("PASSWORD")
 
 # Local directory path
-local_dir = ''
+local_dir = ""
 
 # Remote directory path on the SSH server
-remote_dir = './'
+remote_dir = "./"
 
 # List of files to upload
-files_to_upload = ['kkkk.txt']
+files_to_upload = ["kkkk.txt"]
 
 # Create an SSH client
 ssh_client = paramiko.SSHClient()
@@ -42,15 +42,15 @@ try:
         local_path = os.path.join(local_dir, file_name)
         remote_path = os.path.join(remote_dir, file_name)
         sftp.put(local_path, remote_path)
-        print(f'Uploaded {file_name} to {ssh_host}:{remote_path}')
+        print(f"Uploaded {file_name} to {ssh_host}:{remote_path}")
 
     # Close the SFTP session and SSH connection
     sftp.close()
     ssh_client.close()
 
 except paramiko.AuthenticationException:
-    print('Authentication failed')
+    print("Authentication failed")
 except paramiko.SSHException as e:
-    print(f'SSH connection failed: {str(e)}')
+    print(f"SSH connection failed: {str(e)}")
 except Exception as e:
-    print(f'An error occurred: {str(e)}')
+    print(f"An error occurred: {str(e)}")

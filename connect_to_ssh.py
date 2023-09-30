@@ -2,11 +2,11 @@ import paramiko
 from decouple import config
 
 # Creds
-username = config('USER_NAME')
-password = config('PASSWORD')
-private_key = ''
-hostname = config('HOSTNAME')
-port = int(config('PORT'))
+username = config("USER_NAME")
+password = config("PASSWORD")
+private_key = ""
+hostname = config("HOSTNAME")
+port = int(config("PORT"))
 
 ssh_client = paramiko.SSHClient()
 
@@ -21,7 +21,7 @@ try:
         ssh_client.connect(hostname, username=username, key_filename=private_key)
 
     # Do something
-    command = 'cat asdf.txt'
+    command = "cat asdf.txt"
     stdin, stdout, stderr = ssh_client.exec_command(command)
 
     # Print command output
