@@ -1,5 +1,6 @@
 import paramiko
 from decouple import config
+import os
 
 # Creds
 username = config("USER_NAME")
@@ -21,18 +22,16 @@ try:
         ssh_client.connect(hostname, username=username, key_filename=private_key)
 
     # Do something
-    command = "cat asdf.txt"
-    stdin, stdout, stderr = ssh_client.exec_command(command)
+    # command = "cat asdf.txt"
+    # stdin, stdout, stderr = ssh_client.exec_command(command)
 
     # Print command output
     print("Command output:")
-    for line in stdout:
-        print(line.strip())
+    # for line in stdout:
+    #     print(line.strip())
 
     # Close ssh connection
-    ssh_client.close()
-    stdin.close()
-
+    ssh_client.get_transport().set_keepalive(30)
 # Catch exceptions
 except paramiko.AuthenticationException as auth_error:
     print(f"Authentication failed: {auth_error}")
@@ -40,3 +39,5 @@ except paramiko.SSHException as ssh_error:
     print(f"SSH connection error: {ssh_error}")
 except Exception as e:
     print(f"An error occurred: {e}")
+
+os.system(f"ssh {config('USER_NAME')}@{''}")

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiLo-Proxy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="main__keyGenerator--parent mt-[200px]">
+        <div class="main__keyGenerator--container">
+            <h2 class="main__keyGenerator--heading font-bold">Twój klucz to:</h2>
+            <div class="main__keyGenerator--keyContainer">
+                <span class="main__keyGenerator--key">
+                    {{public_key}}
+                </span>
+                <div class="main__keyGenerator--line"></div>
+                <img class="main__keyGenerator--copy" src="{{ url_for('static', filename='images/copyIcon.png') }}">
+            </div>
+            <div class="relative">
+                    <button class="button-hover2">
+                        <span class="main__keyGenerator--buttonSpan relative">Zrobione!</span>
+                    </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
