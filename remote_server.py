@@ -3,9 +3,10 @@
 for local testing first run mongodb locally
 docker run -d -p 27017:27017 --name hilo-mongo mongo:latest
 """
+import os
 from typing import Annotated
 from pydantic import BaseModel
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
 # from sqlalchemy import create_engine
@@ -46,6 +47,8 @@ app = FastAPI(
     },
 )
 
+class PublicKey(BaseModel):
+    key: str
 
 class User(BaseModel):
     name: str
@@ -60,28 +63,32 @@ def users_serializer(users) -> list:
     return [user_serializer(user) for user in users]
 
 
-@app.get("/", status_code=status.HTTP_200_OK)
+@app.get("/")
 def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
     """User login for remote panel"""
 
-    result = collection.find_one({"name": credentials.username})["name"]
-    return {f"Cześć {result}"}
+    result = collection.find_one({"name": credentials.username})
+    if not result:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    if result['password'] == credentials.password:
+        name = result['name']
+        return {f"Cześć {name}"}
+    raise HTTPException(status_code=403, detail="Forbidden")
+
+def is_valid_key(text: str):
+    return True
 
 
-    # if user not in database.keys():
-    # if not user not in database.keys():
-    #     return status.HTTP_403_FORBIDDEN
-    # if database.get(user) == credentials.password:
-    #     return {f"Welcome {user} to remote panel"}
-    # return status.HTTP_403_FORBIDDEN
+@app.post("/")
+def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)], public_key: PublicKey):
+    """User post public key to the remote server"""
+    key = public_key.key
+    print(key)
+    if not is_valid_key(key):
+        raise HTTPException(status_code=403, detail="Forbidden")  # Fix the proper response
+    name = credentials.username
+    with open(f"test_{name}_id_rsa.pub", 'w')as f:
+        f.write(key)
+    return status.HTTP_201_CREATED
 
 
-@app.get("/key", status_code=status.HTTP_200_OK)
-def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
-    """User login for remote panel"""
-    user = credentials.username
-    if user not in database.keys():
-        return status.HTTP_403_FORBIDDEN
-    if database.get(user) == credentials.password:
-        return {f"Welcome {user} to remote panel"}
-    return status.HTTP_403_FORBIDDEN
