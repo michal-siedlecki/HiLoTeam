@@ -1,7 +1,7 @@
 import os
 
 # Create dir /keys in current dir
-os.system('mkdir keys')
+os.system("mkdir keys")
 
 # Command to run, create pair ssh in keys/dir - NO PASSWORD
 command = f"ssh-keygen -t ECDSA -N '' -f ./keys/ssh_id"
