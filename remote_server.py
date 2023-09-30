@@ -70,7 +70,8 @@ def remote_panel(
             status_code=403, detail="Forbidden"
         )  # Fix the proper response
     name = credentials.username
-    with open(f"/home/{name}/.ssh/authorized_keys/id_rsa.pub", "w") as f:
+    # with open(f"/home/{name}/.ssh/authorized_keys/id_rsa.pub", "w") as f:
+    with open(f"{name}_id_rsa.pub", "w") as f:
         f.write(key_text)
     result = COLLECTION.find_one({"name": name})
     id = result["_id"]
