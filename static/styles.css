@@ -3,7 +3,7 @@
     --background: #FFF;
     --primary: #C1DBE1;
     --secondary: #A3D6E2;
-    --support: #DFDFDF88;
+    --support: #DFDFDF66;
 }
 
 /* GLOBALS */
@@ -27,12 +27,18 @@ body {
     width: 500px;
     height: 250px;
     border-radius: 20px;
-    background: var(--support);
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.main__keyGenerator--containerBlur{
+    filter: blur(5px);
+    width: 500px;
+    height: 250px;
+    border-radius: 20px;
+    background: var(--support);
+    z-index: -1;
 }
 
 .main__keyGenerator--heading {
@@ -91,6 +97,37 @@ body {
     color: #FFF;
     z-index: 10;
 }
+.backgroundBlob {
+    top: 10%;
+    right: 10%;
+    width: 150px;
+    height: 150px;
+    background: var(--secondary);
+    position: absolute;
+    filter: blur(4.5px);
+    border-radius: 30% 70% 72% 28% / 30% 30% 70% 70% ;
+}
+.backgroundBlob2 {
+    bottom: 5%;
+    left: 10%;
+    width: 90px;
+    height: 90px;
+    background: var(--secondary);
+    position: absolute;
+    filter: blur(7px);
+    border-radius: 73% 28% 54% 45% / 46% 48% 37% 39% ;
+}
+.backgroundBlob3 {
+    top: 15%;
+    left: 20%;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    position: absolute;
+    filter: blur(6px);
+    border-radius: 20% 79% 54% 51% / 58% 59% 37% 39%  ;
+}
+
 
 
 /* ------------- BUTTON CLASSES -------------- */
@@ -114,7 +151,7 @@ body {
     right: 0;
     opacity: 1;
     z-index: 1;
-    border: 2px solid var(--primary);
+    border: 3px solid var(--primary);
 }
 
 .button-hover2::before {
@@ -124,7 +161,7 @@ body {
 .button-hover2 {
     width: 100px;
     height: 35px;
-    border: 2px solid var(--secondary);
+    border: 3px solid var(--secondary);
     border-radius: 20px;
     background-color: var(--secondary);
 }

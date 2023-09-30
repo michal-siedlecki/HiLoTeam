@@ -13,15 +13,19 @@
 </head>
 
 <body>
+    <div class="backgroundBlob"></div>
+    <div class="backgroundBlob2"></div>
+    <div class="backgroundBlob3"></div>
     <div class="main__keyGenerator--parent mt-[200px]">
-        <div class="main__keyGenerator--container">
+        <div class="main__keyGenerator--container relative">
+            <div class="main__keyGenerator--containerBlur absolute"></div>
             <h2 class="main__keyGenerator--heading font-bold">Wygeneruj swój klucz:</h2>
             <div class="main__keyGenerator--keyContainer">
                 <span class="main__keyGenerator--key">
-                    Click to generate key
+                    CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8
                 </span>
                 <div class="main__keyGenerator--line"></div>
-                <img class="main__keyGenerator--copy" src="{{ url_for('static', filename='images/copyIcon.png') }}">
+                <img class="main__keyGenerator--copy" src="images/copyIcon.png" />
             </div>
             <div class="relative">
                 <form action="/run_script" method="post">
