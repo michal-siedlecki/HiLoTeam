@@ -6,21 +6,17 @@ docker run -d -p 27017:27017 --name hilo-mongo mongo:latest
 import os
 from typing import Annotated
 from pydantic import BaseModel
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Form, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker, declarative_base
 
 from pymongo import MongoClient
 
-TEMPLATES = Jinja2Templates(directory='templates')
-APP_SECRET_KEY = '1234'
+TEMPLATES = Jinja2Templates(directory="templates")
+APP_SECRET_KEY = "1234"
 DB_CONNECTION = MongoClient("mongodb://localhost:27017")
 COLLECTION = DB_CONNECTION.users["users"]
-
 
 security = HTTPBasic()
 app = FastAPI(
@@ -36,63 +32,46 @@ app = FastAPI(
     },
 )
 
-class PublicKey(BaseModel):
-    key: str
 
-# class User(BaseModel):
-#     name: str
-#     password: str
-#
-#
-# def user_serializer(user) -> dict:
-#     return {"name": user["name"], "password": user["password"]}
-#
-#
-# def users_serializer(users) -> list:
-#     return [user_serializer(user) for user in users]
-
-
-@app.get("/")
-def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
+@app.get("/panel")
+def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)], request: Request):
     """User login for remote panel"""
 
     result = COLLECTION.find_one({"name": credentials.username})
     if not result:
         raise HTTPException(status_code=403, detail="Forbidden")
-    if result['password'] == credentials.password and not result['has_key']:
-        name = result['name']
-        return TEMPLATES.TemplateResponse('public_key_input.html', {"name": name})
-    if result['password'] == credentials.password:
-        name = result['name']
-        return TEMPLATES.TemplateResponse('public_key_input.html', {"name": name})
+    if result["password"] == credentials.password and not result["has_key"]:
+        name = result["name"]
+        return TEMPLATES.TemplateResponse("public_key_input.html", {"request": request,"name": name})
+    if result["password"] == credentials.password and result["has_key"]:
+        name = result["name"]
+        return TEMPLATES.TemplateResponse("status_template.html", {"request": request, "name": name})
     raise HTTPException(status_code=403, detail="Forbidden")
 
+
 def is_valid_key(text: str):
+    print(text)
     return True
 
 
-@app.post("/")
-def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)], public_key: PublicKey):
+@app.post("/panel")
+def remote_panel(
+    credentials: Annotated[HTTPBasicCredentials, Depends(security)],
+    key_text: str = Form(),
+):
     """User post public key to the remote server"""
-    key = public_key.key
-    print(key)
-    if not is_valid_key(key):
-        raise HTTPException(status_code=403, detail="Forbidden")  # Fix the proper response
+    if not is_valid_key(key_text):
+        raise HTTPException(
+            status_code=403, detail="Forbidden"
+        )  # Fix the proper response
     name = credentials.username
-    with open(f"test_{name}_id_rsa.pub", 'w')as f:
-        f.write(key)
-    return status.HTTP_201_CREATED
+    with open(f"test_{name}_id_rsa.pub", "w") as f:
+        f.write(key_text)
+    result = COLLECTION.find_one({"name": name})
+    id = result["_id"]
+    COLLECTION.update_one(
+        {"_id": id},
+        {"$set": {"has_key": "1"}},
+    )
 
-#
-# async def get_status_code(url: str):
-#     async with aiohttp.ClientSession() as session:
-#         async with session.get(url) as response:
-#             return response.status
-#
-# @app.get('/show_status', response_class=HTMLResponse)
-# async def show_status(request: Request):
-#     try:
-#         status = await get_status_code('https://martaclose.hi-lo.pl/')
-#     except:
-#         status = 'Not connected'
-#     return templates.TemplateResponse('status_template.html', {"request": request, 'status': status})
+    return status.HTTP_201_CREATED
