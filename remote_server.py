@@ -9,12 +9,15 @@ from pydantic import BaseModel
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 # from sqlalchemy import create_engine
 # from sqlalchemy.orm import sessionmaker, declarative_base
+import aiohttp
 
 from pymongo import MongoClient
 
-
+templates = Jinja2Templates(directory='templates')
 APP_SECRET_KEY = '1234'
 
 # Create database or connect to existing one
@@ -73,6 +76,7 @@ def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]
     if result['password'] == credentials.password:
         name = result['name']
         return {f"Cześć {name}"}
+        # wysyla request o status_ode
     raise HTTPException(status_code=403, detail="Forbidden")
 
 def is_valid_key(text: str):
@@ -92,3 +96,15 @@ def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]
     return status.HTTP_201_CREATED
 
 
+async def get_status_code(url: str):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return response.status
+
+@app.get('/show_status', response_class=HTMLResponse)
+async def show_status(request: Request):
+    try:
+        status = await get_status_code('https://martaclose.hi-lo.pl/')
+    except:
+        status = 'Not connected'
+    return templates.TemplateResponse('status_template.html', {"request": request, 'status': status})
