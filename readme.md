@@ -1,11 +1,18 @@
-HiLo Team Readme file
+HiLo Team 
 
-Roadmap
-* tbd
+Cel Aplikacji
 
+Utworzenie dwukierunkowego serwera proxy, który umożliwia bezpieczne utworzenie tunelu SSH w prosty sposób. 
+Które pozwoli na połączenie za firewallem w sposób bezpieczny i dwukierunkowy urządzeń IOT i aplikacji
 
-[x] 1. User Pobiera kod na kartę sd
-2. User Generuje sobie klucze na raspbiaku i wyświetla mu się klucz publiczny
+Rozwiązanie może być wykorzystane do bezpiecznego i prostego w konfiguracji przesyłu danych w wielu dziedzinach życia:
+Madycyna, Przemysł, Nauka
+
+Proces tworzenia takiego połączenia wygląda następująco
+
+1. Użytkownik pobiera kod z repozytorium na kartę sd i wkłada ją do urządzenia IOT
+2. Urządzenie uruchamia w sieci lokalnej użytkownika serwer http z lokalnym panelem konfiguracji
+2. Użytkownik generuje w lokalnym panelu klucze na raspbiaku i wyświetla mu się klucz publiczny
 3. User prosi o rejestrację
 4. My tworzymy w bazie credentiale dla użytkownika 
 5. Wysyłamy je
@@ -14,3 +21,7 @@ Roadmap
 8. Gdy kliknie submit uruchamia skrypt który kopiuje ten klucz do wlasciwego katalogu
 9. Następnie użytkownik ze swojego raspiaka nawiązuje połączenie ssh i patrzy w panelu zdalnym czy się udało
 10. Jeśli się udało powinien zobaczyć swojego nighscouta wchodząc na swój panel 'publiczny'
+
+Co mamy:
+Strona w której zużytkownik generuje klucze dostępu do serwera i wyświetla klucz publiczny 
+Użytkownik ma możliwośc przechowania 
