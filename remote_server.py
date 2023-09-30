@@ -3,6 +3,7 @@
 for local testing first run mongodb locally
 docker run -d -p 27017:27017 --name hilo-mongo mongo:latest
 """
+import os
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, Form, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -69,7 +70,7 @@ def remote_panel(
             status_code=403, detail="Forbidden"
         )  # Fix the proper response
     name = credentials.username
-    with open(f"test_{name}_id_rsa.pub", "w") as f:
+    with open(f"/home/{name}/.ssh/authorized_keys/id_rsa.pub", "w") as f:
         f.write(key_text)
     result = COLLECTION.find_one({"name": name})
     id = result["_id"]
