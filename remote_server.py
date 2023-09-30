@@ -26,8 +26,8 @@ APP_SECRET_KEY = '1234'
 database = {"adam": "1234", "janina": "1234", "sławek": "1234"}
 
 db_connection = MongoClient("mongodb://localhost:27017")
-db = db_connection.database_name
-collection = db["users"]
+collection = db_connection.users["users"]
+# collection = db["users"]
 
 
 security = HTTPBasic()
@@ -53,7 +53,7 @@ class User(BaseModel):
 
 
 def user_serializer(user) -> dict:
-    return {"id": str(user["_id"]), "name": user["name"], "password": user["password"]}
+    return {"name": user["name"], "password": user["password"]}
 
 
 def users_serializer(users) -> list:
@@ -63,9 +63,11 @@ def users_serializer(users) -> list:
 @app.get("/", status_code=status.HTTP_200_OK)
 def remote_panel(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
     """User login for remote panel"""
-    name = credentials.username
-    user = users_serializer(collection.find({"name": name}))
-    return user
+
+    result = collection.find_one({"name": credentials.username})["name"]
+    return {f"Cześć {result}"}
+
+
     # if user not in database.keys():
     # if not user not in database.keys():
     #     return status.HTTP_403_FORBIDDEN
