@@ -52,7 +52,7 @@ def remote_panel(
         )
     if pwd_match and result["has_key"]:
         name = result["name"]
-        status_response = requests.get('https://martaclose.hi-lo.pl')
+        status_response = requests.get("https://martaclose.hi-lo.pl")
         status = status_response.status_code
         return TEMPLATES.TemplateResponse(
             "status_template.html", {"request": request, "name": name, "status": status}
@@ -71,12 +71,10 @@ def remote_panel(
 ):
     """User post public key to the remote server"""
     if not is_valid_key(key_text):
-        raise HTTPException(
-            status_code=422, detail="Unprocessable entry"
-        )
+        raise HTTPException(status_code=422, detail="Unprocessable entry")
     name = credentials.username
     with open(f"/home/{name}/.ssh/authorized_keys", "w") as f:
-    # with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
+        # with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
         f.write(key_text)
     result = COLLECTION.find_one({"name": name})
     id = result["_id"]
