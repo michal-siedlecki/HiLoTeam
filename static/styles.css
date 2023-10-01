@@ -27,7 +27,7 @@ body {
     width: 500px;
     height: 250px;
     border-radius: 20px;
-    box-shadow: 1px 1px 7px #DFDFDF88;
+    box-shadow: 1px 1px 7px #DFDFDFBB;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -98,10 +98,12 @@ body {
 .main__keyGenerator--buttonSpan {
     font-weight: 600;
     height: 20px;
-    color: #FFF;
+    color: var(--secondary);
     z-index: 10;
     height:22px;
+    transition: all 0.3s;
 }
+
 .backgroundBlob {
     top: 10%;
     right: 10%;
@@ -109,7 +111,7 @@ body {
     height: 150px;
     background: var(--secondary);
     position: absolute;
-    filter: blur(4.5px);
+    filter: blur(3.5px);
     border-radius: 30% 70% 72% 28% / 30% 30% 70% 70% ;
     animation-name: backgroundBlobOne;
     animation-duration: 4s;
@@ -148,7 +150,7 @@ body {
     width: 500px;
     height: 500px;
     border-radius: 20px;
-    box-shadow: 1px 1px 7px #DFDFDF88;
+    box-shadow: 1px 1px 7px #dfdfdfbb;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -192,7 +194,7 @@ body {
 }
 
 .button-hover2::before {
-    background-color: #DFDFDF;
+    background-color: var(--secondary);
 }
 
 .button-hover2 {
@@ -200,10 +202,22 @@ body {
     height: 35px;
     border: 2px solid var(--secondary);
     border-radius: 20px;
-    background-color: var(--secondary);
+    background-color: var(--support);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button-hover2:hover .main__keyGenerator--buttonSpan{
+    color:#FFF;
+}
+
+.copyButton {
+    visibility: hidden;
+}
+
+.active {
+    visibility: visible; 
 }
 
 /* KEYFRAMES */

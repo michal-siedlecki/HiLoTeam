@@ -20,22 +20,42 @@
         <div class="main__keyGenerator--container relative">
             <div class="main__keyGenerator--containerBlur absolute"></div>
             <h2 class="main__keyGenerator--heading font-bold">Twój publiczny klucz SSH to:</h2>
-            <div class="main__keyGenerator--keyContainer">
-                <span class="main__keyGenerator--key">
+            <div class="main__keyGenerator--keyContainer relative">
+                <span class="main__keyGenerator--key" id="generatedKey">
                     {{public_key}}
                 </span>
                 <div class="main__keyGenerator--line"></div>
-                <img class="main__keyGenerator--copy" src="{{ url_for('static', filename='images/copyIcon.png') }}" />
+                <img id="copyButton" class="main__keyGenerator--copy"
+                    src="{{ url_for('static', filename='images/copyIcon.png') }}" 
+                />
+                <span id="keyCopied" class="copyButton left-[20px] bottom-[40px] text-[10px] text-[#A3D6E2CC] w-[400px] text-center mt-3 absolute">Klucz został skopiowany!</span>
             </div>
-            <div class="relative">
-                <form action="/run_script" method="post">
-                    <button class="button-hover2">
-                        <span class="main__keyGenerator--buttonSpan relative">GOTOWE!</span>
-                    </button>
-                </form>
-            </div>
+            <span class="text-[14px] text-[#A3D6E2CC] w-[400px] text-center mt-3">Po skopiowaniu klucza, skontaktuj się
+                z zespołem Team-HiLo w celu utworzenia konta użytkownika!</span>
         </div>
     </div>
 </body>
+<script>
+
+    const spanElement = document.getElementById("generatedKey");
+    const copyButton = document.getElementById("copyButton");
+    const keyCopied = document.getElementById("keyCopied");
+
+    copyButton.addEventListener("click", function () {
+
+        const range = document.createRange();
+        range.selectNode(spanElement);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+
+        document.execCommand("copy");
+
+        window.getSelection().removeAllRanges();
+
+        keyCopied.classList.toggle('active')
+
+        setTimeout(() => keyCopied.classList.toggle('active'), 2000)
+    });
+</script>
 
 </html>
