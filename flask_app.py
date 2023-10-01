@@ -17,7 +17,7 @@ def run_script():
         if not path.exists("./keys"):
             try:
                 # Uruchamianie skryptu pythona ssh_generator.py
-                subprocess.run(["python", "ssh_generator.py"], check=True)
+                subprocess.run(["python3", "ssh_generator.py"], check=True)
                 with open("keys/ssh_id.pub") as public_key:
                     public_key = public_key.read()
                 return render_template("keys_success.html", public_key=public_key)
