@@ -25,3 +25,13 @@ Proces tworzenia takiego połączenia wygląda następująco
 Co mamy:
 Strona w której zużytkownik generuje klucze dostępu do serwera i wyświetla klucz publiczny 
 Użytkownik ma możliwośc przechowania 
+-------------------------------------------------
+1. Uzytkownik tworzy sobie klucz na swoim urzadzeniu
+2. Uzytkownik wysyla prosbe o utworzenie konta
+3. Konto zostaje utworzone w MongoDB:
+#### db.users.insertOne({name: "nazwa", password: "1234", has_key: ""})
+4. Nastepnie zostaje stworzony przez roota na zdalnym serwerze przy uzyciu
+####  python3 create_user.py nazwa
+5. Uzytkownik wkleja swoje klucz na zdalny serwer
+6. Klucz zostaje zapisany w katalogu uzytkownika na zdalnym serwerze
+7. Polaczenie zostaje nawiazane
