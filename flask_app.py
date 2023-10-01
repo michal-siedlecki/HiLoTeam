@@ -14,7 +14,7 @@ def main_page():
 @app.route("/run_script", methods=["POST"])
 def run_script():
     if request.method == "POST":
-        if not path.exists("keys/"):
+        if not path.exists("./keys"):
             try:
                 # Uruchamianie skryptu pythona ssh_generator.py
                 subprocess.run(["python", "ssh_generator.py"], check=True)
