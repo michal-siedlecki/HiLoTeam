@@ -21,11 +21,11 @@
             <div class="main__keyGenerator--containerBlur absolute"></div>
             <h2 class="main__keyGenerator--heading font-bold">Wygeneruj swój klucz:</h2>
             <div class="main__keyGenerator--keyContainer">
-                <span class="main__keyGenerator--key">
-                    CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8+CvsXXYGSWQ9yudElA4JDrz3YSmFFtH0osX7U4aJlNBh6dMqEGeTO8
+                <span class="main__keyGenerator--key text-[16px] text-[#DFDFDF99]">
+                    Tutaj wygeneruje się Twój publiczny klucz SSH...
                 </span>
                 <div class="main__keyGenerator--line"></div>
-                <img class="main__keyGenerator--copy" src="images/copyIcon.png" />
+                <img class="main__keyGenerator--copy" src="{{ url_for('static', filename='images/copyIcon.png') }}" />
             </div>
             <div class="relative">
                 <form action="/run_script" method="post">
