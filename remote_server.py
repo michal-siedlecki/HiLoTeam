@@ -80,8 +80,8 @@ def remote_panel(
     if not is_valid_key(key_text):
         raise HTTPException(status_code=422, detail="Unprocessable entry")
     name = credentials.username
-    # with open(f"/home/{name}/.ssh/authorized_keys", "w") as f:
-    with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
+    with open(f"/home/{name}/.ssh/authorized_keys", "w") as f:
+    # with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
         f.write(key_text)
     result = COLLECTION.find_one({"name": name})
     id = result["_id"]
