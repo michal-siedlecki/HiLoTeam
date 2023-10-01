@@ -10,6 +10,7 @@ from fastapi import Depends, FastAPI, HTTPException, Form, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 from pymongo import MongoClient
 
@@ -30,7 +31,10 @@ app = FastAPI(
     license_info={
         "name": "MIT",
     },
+
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/panel")
@@ -77,7 +81,7 @@ def remote_panel(
         raise HTTPException(status_code=422, detail="Unprocessable entry")
     name = credentials.username
     with open(f"/home/{name}/.ssh/authorized_keys", "w") as f:
-        # with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
+    # with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
         f.write(key_text)
     result = COLLECTION.find_one({"name": name})
     id = result["_id"]
