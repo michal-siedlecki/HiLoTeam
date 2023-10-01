@@ -3,7 +3,7 @@
 for local testing first run mongodb locally
 docker run -d -p 27017:27017 --name hilo-mongo mongo:latest
 """
-import os
+import bcrypt
 import requests
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, Form, Request
@@ -42,16 +42,20 @@ def remote_panel(
     result = COLLECTION.find_one({"name": credentials.username})
     if not result:
         raise HTTPException(status_code=403, detail="Forbidden")
-    if result["password"] == credentials.password and not result["has_key"]:
+    password_plain = credentials.password
+    password_hash = result["password"]
+    pwd_match = bcrypt.checkpw(password_plain.encode(), password_hash)
+    if pwd_match and not result["has_key"]:
         name = result["name"]
         return TEMPLATES.TemplateResponse(
             "public_key_input.html", {"request": request, "name": name}
         )
-    if result["password"] == credentials.password and result["has_key"]:
+    if pwd_match and result["has_key"]:
         name = result["name"]
         status_response = requests.get('https://martaclose.hi-lo.pl')
         with open(f'/home/{name}/.ssh/authorized_keys') as file:
             public_key = file.read()
+        status_response = requests.get("https://martaclose.hi-lo.pl")
         status_code = status_response.status_code
         return TEMPLATES.TemplateResponse(
             "status_template.html", {"request": request, "name": name, "status_code": status_code, "public_key": public_key}
@@ -60,7 +64,6 @@ def remote_panel(
 
 
 def is_valid_key(text: str):
-    print(text)
     return True
 
 
@@ -71,12 +74,10 @@ def remote_panel(
 ):
     """User post public key to the remote server"""
     if not is_valid_key(key_text):
-        raise HTTPException(
-            status_code=403, detail="Forbidden"
-        )  # Fix the proper response
+        raise HTTPException(status_code=422, detail="Unprocessable entry")
     name = credentials.username
     with open(f"/home/{name}/.ssh/authorized_keys", "w") as f:
-    # with open(f"{name}_id_rsa.pub", "w") as f:
+        # with open(f"{name}_id_rsa.pub", "w") as f:  # local dev
         f.write(key_text)
     result = COLLECTION.find_one({"name": name})
     id = result["_id"]
