@@ -50,9 +50,11 @@ def remote_panel(
     if result["password"] == credentials.password and result["has_key"]:
         name = result["name"]
         status_response = requests.get('https://martaclose.hi-lo.pl')
-        status = status_response.status_code
+        with open(f'/home/{name}/.ssh/authorized_keys') as file:
+            public_key = file.read()
+        status_code = status_response.status_code
         return TEMPLATES.TemplateResponse(
-            "status_template.html", {"request": request, "name": name, "status": status}
+            "status_template.html", {"request": request, "name": name, "status_code": status_code, "public_key": public_key}
         )
     raise HTTPException(status_code=403, detail="Forbidden")
 
