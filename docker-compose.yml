@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+
+  app:
+    build: .
+    command: bash -c "uvicorn core.main:app --host 0.0.0.0 --port 8000 --reload"
+    environment:
+      - DATABASE_URL=mongodb://localhost:27017
+      - SECRET_KEY=123abc
+      - DEBUG=1
+      - IOT_BASE_IMAGE_PATH=../raspberry_image
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
