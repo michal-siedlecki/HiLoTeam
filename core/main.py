@@ -18,7 +18,7 @@ from starlette import status
 
 from pymongo import MongoClient
 
-from rsa_keygen import generate_keys
+from core.rsa_keygen import generate_keys
 
 APP_SECRET_KEY = os.getenv("SECRET_KEY")
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -118,7 +118,7 @@ def get_users(user: UserModel, db=Depends(db_context)):
 
 
 def create_custom_image(private_key, image_path):
-    path = f"../keys/id_rsa"
+    path = f"./keys/id_rsa"
     with open(f"{path}", "w") as f:
         f.write(private_key)
     return path
@@ -126,7 +126,7 @@ def create_custom_image(private_key, image_path):
 
 def save_key(name, pub):
     # with open(f"/home/{name}/.ssh/authorized_keys", "w") as f:
-    path = f"../keys/{name}_id_rsa.pub"
+    path = f"./keys/{name}_id_rsa.pub"
     with open(f"{path}", "w") as f:
         f.write(pub)
 
